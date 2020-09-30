@@ -10,7 +10,7 @@
       @select="handleSelect"
     >
       <el-menu-item
-        v-for="(item, index) in menuListL"
+        v-for="(item, index) in menuList"
         :name="item.name"
         :key="index"
         :index="index.toString()"
@@ -27,47 +27,23 @@ export default {
   data () {
     return {
       // activeIndex: '0',
-      menuListL: [
-        {
-          name: 'setout',
-          title: '准备'
-        },
-        {
-          name: 'start',
-          title: '开始'
-        },
-        {
-          name: 'center',
-          title: '个人中心'
-        },
-        {
-          name: 'about',
-          title: '关于'
-        },
-        {
-          name: 'test',
-          title: 'test'
-        },
-        {
-          name: 'cards',
-          title: 'cards'
-        },
-        {
-          name: 'sponsorship',
-          title: '赞助'
-        }
-      ]
+      menuList: this.$store.state.baseData.MENU_LIST
     }
   },
   methods: {
     handleSelect (key) {
-      this.$emit('changePage', this.menuListL[key])
+      const data = this.menuList[key]
+      if (this.$route.name === data.name) {
+        this.$utils.tipsWarning('已是所选页面')
+        return
+      }
+      this.$router.push(data.name)
     }
   },
   mounted () {},
   computed: {
     activeIndex () {
-      return this.menuListL
+      return this.menuList
         .findIndex(item => item.name === this.$route.name)
         .toString()
     }

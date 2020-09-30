@@ -25,7 +25,7 @@ export default {
   components: { card },
   data () {
     return {
-      drawType: this.$store.state.baseData.type,
+      drawType: this.$store.state.baseData.TYPE,
       // 当前卡片
       nowCards: [],
       // 起始卡片
@@ -85,7 +85,7 @@ export default {
       }
       // 复制卡牌基本属性
       this.drawCardObj = this.$utils.copy(
-        this.$store.state.baseData.cardType[this.typeIndex]
+        this.$store.state.baseData.CARD_TYPE[this.typeIndex]
       )
       if (this.drawCardObj.type !== 'others') {
         // 非O卡计算points
@@ -95,9 +95,9 @@ export default {
       console.log(this.drawCardObj)
       this.nowCards.push(this.drawCardObj)
     },
-    useCard () {
-
-    },
+    // 使用
+    useCard () {},
+    // 丢弃
     discard () {
       if (this.selectCardIndex < 0) {
         this.$utils.tipsWarning('未选择卡片')
@@ -157,9 +157,9 @@ export default {
   cursor: pointer;
 }
 // 定义颜色
-$btnBule:#51b5d4;
-$btnPurple:#cf4cda;
-$btnGreen:#a0d24b;
+$btnBule: #51b5d4;
+$btnPurple: #cf4cda;
+$btnGreen: #a0d24b;
 .drawCard {
   color: $btnBule;
 }
