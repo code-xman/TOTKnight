@@ -1,7 +1,7 @@
 <template>
   <div class="eCard" :class="todo ? 'flipped' : ''" @click="eCardClick">
     <div class="card front">发生事件</div>
-    <div class="card back">{{ content }}</div>
+    <div class="card back">{{ eCardData.content }}</div>
   </div>
 </template>
 
@@ -9,9 +9,9 @@
 export default {
   name: 'eCard',
   props: {
-    content: {
-      type: String,
-      default: '赶路中...'
+    eCardData: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {
@@ -41,6 +41,7 @@ export default {
   transform: rotateY(180deg);
 }
 .card {
+  backface-visibility: hidden;
   box-sizing: border-box;
   position: absolute;
   width: 100%;
@@ -49,8 +50,10 @@ export default {
   padding: 5px;
 }
 .front {
-  z-index: 2;
-  background: #00bcd4;
+  /* z-index: 2; */
+  /* background: #00bcd4; */
+  background-image: url('../assets/cardBackground/cardBackground1.jpg');
+  background-size: cover;
   writing-mode: vertical-lr;
   text-align: center;
   line-height: 150px;
@@ -58,8 +61,11 @@ export default {
   color: #fff;
 }
 .back {
-  z-index: 1;
-  background: #a6d470;
+  /* z-index: 1; */
+  /* background: #a6d470; */
+  background-image: url('../assets/cardBackground/cardBackground1_B.jpg');
+  background-size: cover;
+  color: #fff;
   transform: rotateY(180deg);
 }
 </style>

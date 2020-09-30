@@ -1,7 +1,7 @@
 <template>
   <div class="eventCards">
     <template v-for="(item, index) in eCardList">
-      <eCard :key="index" :content="item.content" />
+      <eCard :key="index" :eCardData="item" />
     </template>
   </div>
 </template>
@@ -14,9 +14,9 @@ export default {
   data () {
     return {
       eCardList: [
-        { content: '遇见怪物' },
-        { content: '获得奇物' },
-        { content: '赶路中...' }
+        { content: '遇见怪物', type: 'monster' },
+        { content: '获得奇物', type: 'getThing' },
+        { content: '赶路中...', type: 'running' }
       ]
     }
   }
