@@ -1,7 +1,7 @@
 <template>
   <div
     class="card"
-    :class="{active: index === activeIndex}"
+    :class="{ active: index === activeIndex }"
     :style="{ background: cardData.color }"
     @click="clickFn()"
   >
@@ -54,8 +54,26 @@ export default {
   color: #fff;
   font-size: 24px;
   transition: all 0.3s;
+  cursor: pointer;
+  overflow: hidden;
 }
-.card.active{
+.card:before {
+  content: ' ';
+  position: absolute;
+  background: #fff;
+  width: 25px;
+  height: 100%;
+  top: 0;
+  left: -67px;
+  opacity: 0.3;
+  transition: all 0.6s ease-out;
+  transform: skewX(-25deg);
+}
+.card:hover:before {
+  width: 45px;
+  left: 205px;
+}
+.card.active {
   border: 3px solid #fff;
 }
 .consumeBlue {
