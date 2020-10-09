@@ -12,6 +12,14 @@ export default {
     eCardData: {
       type: Object,
       default: () => {}
+    },
+    hasThing: {
+      type: Boolean,
+      default: false
+    },
+    active: {
+      type: Number,
+      required: true
     }
   },
   data () {
@@ -21,7 +29,19 @@ export default {
   },
   methods: {
     eCardClick () {
+      if (this.hasThing) {
+        this.$utils.tipsWarning('已有事件发生')
+        return
+      }
       this.todo = !this.todo
+      this.$emit('eCardClick', this.eCardData)
+    }
+  },
+  watch: {
+    active: {
+      handler () {
+        this.todo = false
+      }
     }
   }
 }
@@ -36,6 +56,7 @@ export default {
   height: 200px;
   transform-style: preserve-3d;
   transition: transform 1s;
+  cursor: pointer;
 }
 .flipped {
   transform: rotateY(180deg);

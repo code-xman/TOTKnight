@@ -129,8 +129,9 @@ export default {
 .rightCards {
   height: auto;
   width: 450px;
-  background: #031628;
   padding: 20px 10px;
+  background: #031628;
+  color: #fff;
 }
 .myCards {
   display: flex;

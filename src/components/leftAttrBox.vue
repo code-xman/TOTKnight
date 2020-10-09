@@ -80,6 +80,7 @@ export default {
   height: auto;
   width: 300px;
   background: #031628;
+  color: #fff;
 }
 .attrNumBox {
   margin: 0 20px;

@@ -62,6 +62,13 @@ const baseData = {
       name: 'sponsorship',
       title: '赞助'
     }
+  ],
+  STEP_LIST_1: [
+    { name: '关卡 1' },
+    { name: '关卡 2' },
+    { name: '关卡 3' },
+    { name: '关卡 4' },
+    { name: '关卡 5' }
   ]
 }
 
