@@ -28,14 +28,7 @@ export default {
   components: { attrBar },
   computed: {
     attrsBarObj () {
-      return {
-        bloodAll: this.$store.state.bloodAll,
-        blood: this.$store.state.blood,
-        manaAll: this.$store.state.manaAll,
-        mana: this.$store.state.mana,
-        energyAll: this.$store.state.energyAll,
-        energy: this.$store.state.energy
-      }
+      return this.$store.state.attrsBarObj
     },
     attrsNumObj () {
       return this.$store.state.attrsNumObj
@@ -48,22 +41,22 @@ export default {
           attrName: '血量',
           name: 'blood',
           colorType: 'reds',
-          total: this.$store.state.bloodAll,
-          residue: this.$store.state.blood
+          total: this.$store.state.attrsBarObj.bloodAll,
+          residue: this.$store.state.attrsBarObj.blood
         },
         {
           attrName: '法量',
           name: 'mana',
           colorType: 'blues',
-          total: this.$store.state.manaAll,
-          residue: this.$store.state.mana
+          total: this.$store.state.attrsBarObj.manaAll,
+          residue: this.$store.state.attrsBarObj.mana
         },
         {
           attrName: '能量',
           name: 'energy',
           colorType: 'yellows',
-          total: this.$store.state.energyAll,
-          residue: this.$store.state.energy
+          total: this.$store.state.attrsBarObj.energyAll,
+          residue: this.$store.state.attrsBarObj.energy
         }
       ]
     },
@@ -101,12 +94,15 @@ export default {
         }
       ]
     },
+    // 测试扣血
     reduceBlood () {
-      this.$store.commit('reduceAttrs', {
+      this.$store.commit('changeAttrsBarObj', {
         name: 'blood',
+        type: 'reduce',
         num: 1.3
       })
     },
+    // 测试防御
     changeDefense () {
       this.$store.commit('changeAttrsNumObj', {
         name: 'defense',

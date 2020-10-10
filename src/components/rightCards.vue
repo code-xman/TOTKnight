@@ -70,15 +70,16 @@ export default {
         this.$utils.tipsWarning('所持卡数量达到上线')
         return
       }
+      // typeNum 随机类型 0-6为A；6-9为D；9-10为O
       const typeNum = Math.floor(Math.random() * 10)
       if (typeNum < 6) {
         // A
         this.typeIndex = 0
-        this.coefficient = Math.random() * 6 > 5 ? 5 : 9
+        this.coefficient = Math.random() * 6 < 5 ? 5 : 9
       } else if (typeNum < 9) {
         // D
         this.typeIndex = 1
-        this.coefficient = Math.random() * 5 > 3 ? 3 : 5
+        this.coefficient = Math.random() * 5 < 3 ? 3 : 5
       } else {
         // O
         this.typeIndex = 2
@@ -89,33 +90,44 @@ export default {
       )
       if (this.drawCardObj.type !== 'others') {
         // 非O卡计算points
-        const pointsNum = Math.floor(Math.random() * this.coefficient)
+        const pointsNum = Math.ceil(Math.random() * this.coefficient)
         this.drawCardObj.points = pointsNum
       }
-      console.log(this.drawCardObj)
+      // console.log('抽取卡牌属性', this.drawCardObj)
       this.nowCards.push(this.drawCardObj)
     },
     // 使用
     useCard () {
+      console.log('selectCardData :>> ', this.selectCardData)
       // 判断
-      if (this.$store.state.mana < this.selectCardData.consumeBlue) {
+      if (
+        this.$store.state.attrsBarObj.mana < this.selectCardData.consumeBlue
+      ) {
         this.$utils.tipsWarning('法量不足，无法使用')
         return
       }
-      if (this.$store.state.energy < this.selectCardData.consumeYellow) {
+      if (
+        this.$store.state.attrsBarObj.energy < this.selectCardData.consumeYellow
+      ) {
         this.$utils.tipsWarning('能量不足，无法使用')
         return
       }
       // 消耗蓝
-      this.$store.commit('reduceAttrs', {
+      this.$store.commit('changeAttrsBarObj', {
         name: 'mana',
+        type: 'reduce',
         num: this.selectCardData.consumeBlue
       })
       // 消耗黄
-      this.$store.commit('reduceAttrs', {
+      this.$store.commit('changeAttrsBarObj', {
         name: 'energy',
+        type: 'reduce',
         num: this.selectCardData.consumeYellow
       })
+      // 触发效果
+      this.cardEffect()
+      // 使用后弃置
+      this.discard()
     },
     // 丢弃
     discard () {
@@ -126,10 +138,32 @@ export default {
       this.nowCards.splice(this.selectCardIndex, 1)
       this.selectCardIndex = -1
     },
+    // 手卡效果
+    cardEffect () {
+      switch (this.selectCardData.type) {
+        case 'defense':
+          this.$store.commit('changeAttrsNumObj', {
+            name: 'defense',
+            type: 'add',
+            num: this.selectCardData.points
+          })
+          break
+        case 'attack':
+          this.$store.commit('changeBossAttrObj', {
+            name: 'blood',
+            type: 'reduce',
+            num: this.selectCardData.points
+          })
+          break
+
+        default:
+          break
+      }
+    },
     // 卡片点击事件
     cardClick (cardData, index) {
-      console.log('cardData :>> ', cardData)
-      console.log('index :>> ', index)
+      // console.log('选择卡牌属性 :>> ', cardData)
+      // console.log('选择卡牌索引 :>> ', index)
       this.selectCardData = cardData
       this.selectCardIndex = index
     }

@@ -11,11 +11,12 @@
           ></el-step>
         </el-steps>
         <div flex="cross:center" flex-box="0">
-          <el-button class="nextBtn" @click="nextFn">
+          <el-button class="extractBtn" @click="extractFn">
             {{ btnName }}
           </el-button>
         </div>
       </div>
+      <attrBar :attrObj="bossAttrObj"></attrBar>
       <div>当前事件: {{ thingName }}</div>
     </div>
     <rightCards flex-box="0"></rightCards>
@@ -36,6 +37,7 @@
 import leftAttrBox from '@/components/leftAttrBox.vue'
 import rightCards from '@/components/rightCards.vue'
 import eventCards from './eventCards.vue'
+import attrBar from '@/baseComponents/attrBar.vue'
 export default {
   name: 'test',
   data () {
@@ -44,16 +46,30 @@ export default {
       active: 0,
       btnName: '抽取事件',
       thingName: '暂无',
+      bossAttrObj: this.getBossAttrObj(),
       // 弹框
       dialogTitle: '',
       dialogVisible: false,
       componentName: ''
     }
   },
-  components: { leftAttrBox, rightCards, eventCards },
+  components: { leftAttrBox, rightCards, eventCards, attrBar },
+  computed: {
+    bossAttrs () {
+      return this.$store.state.bossAttrObj
+    }
+  },
   methods: {
+    getBossAttrObj () {
+      return {
+        attrName: '稻草人血量',
+        colorType: 'scarecrow',
+        total: this.$store.state.bossAttrObj.bloodAll,
+        residue: this.$store.state.bossAttrObj.blood
+      }
+    },
     // 下一步按钮事件
-    nextFn () {
+    extractFn () {
       if (this.active >= this.stepList.length) {
         this.$utils.tipsWarning('已到达最终地点')
         return
@@ -68,12 +84,20 @@ export default {
       // console.log('data :>> ', data)
       this.thingName = data.content
     }
+  },
+  watch: {
+    bossAttrs: {
+      handler () {
+        this.bossAttrObj = this.getBossAttrObj()
+      },
+      deep: true
+    }
   }
 }
 </script>
 
 <style scoped>
-.nextBtn {
+.extractBtn {
   margin: 0 5px;
 }
 </style>
