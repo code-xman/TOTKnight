@@ -96,7 +96,27 @@ export default {
       this.nowCards.push(this.drawCardObj)
     },
     // 使用
-    useCard () {},
+    useCard () {
+      // 判断
+      if (this.$store.state.mana < this.selectCardData.consumeBlue) {
+        this.$utils.tipsWarning('法量不足，无法使用')
+        return
+      }
+      if (this.$store.state.energy < this.selectCardData.consumeYellow) {
+        this.$utils.tipsWarning('能量不足，无法使用')
+        return
+      }
+      // 消耗蓝
+      this.$store.commit('reduceAttrs', {
+        name: 'mana',
+        num: this.selectCardData.consumeBlue
+      })
+      // 消耗黄
+      this.$store.commit('reduceAttrs', {
+        name: 'energy',
+        num: this.selectCardData.consumeYellow
+      })
+    },
     // 丢弃
     discard () {
       if (this.selectCardIndex < 0) {

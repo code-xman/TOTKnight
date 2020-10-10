@@ -14,7 +14,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './utils'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+Vue.use(ElementUI, { size: 'small' })
 
 new Vue({
   router,

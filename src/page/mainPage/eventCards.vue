@@ -57,7 +57,7 @@ export default {
       for (let i = 0; i < num; i++) {
         arr.push(this.randomCard())
       }
-      console.log('arr :>> ', arr)
+      // console.log('arr :>> ', arr)
       this.eCardList = []
       this.eCardList = arr
     }

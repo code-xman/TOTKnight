@@ -60,7 +60,8 @@ export default {
   },
   computed: {
     percentage () {
-      return (this.attrObj.residue / this.attrObj.total).toFixed(4) * 100
+      const res = (this.attrObj.residue / this.attrObj.total) * 100
+      return Number(res.toFixed(2))
     }
   },
   methods: {

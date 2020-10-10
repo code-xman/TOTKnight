@@ -10,9 +10,11 @@
             :title="step.name"
           ></el-step>
         </el-steps>
-        <el-button class="nextBtn" @click="nextFn" size="mini" flex-box="0">
-          {{ btnName }}
-        </el-button>
+        <div flex="cross:center" flex-box="0">
+          <el-button class="nextBtn" @click="nextFn">
+            {{ btnName }}
+          </el-button>
+        </div>
       </div>
       <div>当前事件: {{ thingName }}</div>
     </div>
@@ -24,7 +26,7 @@
         @clickFn="clickFn"
       ></component>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="dialogVisible = false">关闭</el-button>
       </span>
     </el-dialog>
   </div>
@@ -40,7 +42,7 @@ export default {
     return {
       stepList: this.$store.state.baseData.STEP_LIST_1,
       active: 0,
-      btnName: '前往下一处',
+      btnName: '抽取事件',
       thingName: '暂无',
       // 弹框
       dialogTitle: '',
@@ -56,14 +58,14 @@ export default {
         this.$utils.tipsWarning('已到达最终地点')
         return
       }
-      this.active++
+      // this.active++
       this.dialogTitle = '请抽取发生的事件'
       this.componentName = 'eventCards'
       this.dialogVisible = true
     },
     // 弹框点击事件
     clickFn (data) {
-      console.log('data :>> ', data)
+      // console.log('data :>> ', data)
       this.thingName = data.content
     }
   }
