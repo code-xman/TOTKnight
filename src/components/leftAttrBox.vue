@@ -10,8 +10,14 @@
         {{ item.attrName }}:{{ item.num }}
       </span>
     </div>
-    <el-button @click="reduceBlood">测试扣血</el-button>
-    <el-button @click="changeDefense">测试防御</el-button>
+    <el-button class="btn" @click="reduceBlood">测试扣血</el-button>
+    <el-button class="btn" @click="changeDefense">测试防御</el-button>
+    <div flex>
+      <el-button class="btn extractBtn" @click="extractFn">
+        抽取事件
+      </el-button>
+      <div class="nowThing">当前事件: {{ thingName }}</div>
+    </div>
   </div>
 </template>
 
@@ -19,6 +25,12 @@
 import attrBar from '@/baseComponents/attrBar.vue'
 export default {
   name: 'leftAttrBox',
+  props: {
+    thingName: {
+      type: String,
+      default: '暂无'
+    }
+  },
   data () {
     return {
       attrBarList: this.getAttrBarList(),
@@ -109,6 +121,10 @@ export default {
         type: 'add',
         num: 1.3
       })
+    },
+    // 抽取事件
+    extractFn () {
+      this.$emit('extractFn')
     }
   },
   watch: {
@@ -129,6 +145,9 @@ export default {
 </script>
 
 <style scoped>
+.btn {
+  margin: 5px 10px;
+}
 .leftAttrBox {
   height: auto;
   width: 300px;
@@ -142,5 +161,8 @@ export default {
   display: inline-block;
   width: 50%;
   padding: 5px 0;
+}
+.nowThing {
+  line-height: 42px;
 }
 </style>

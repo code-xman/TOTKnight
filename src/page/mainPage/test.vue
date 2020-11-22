@@ -1,8 +1,12 @@
 <template>
   <div class="test" flex>
-    <leftAttrBox flex-box="0"></leftAttrBox>
-    <div class="mid-content" flex-box="1">
-      <div flex>
+    <leftAttrBox
+      flex-box="0"
+      :thingName="thingName"
+      @extractFn="extractFn"
+    ></leftAttrBox>
+    <div class="mid-content" flex="dir:top" flex-box="1">
+      <div flex flex-box="0">
         <el-steps simple :active="active" finish-status="success" flex-box="1">
           <el-step
             v-for="(step, index) in stepList"
@@ -10,14 +14,11 @@
             :title="step.name"
           ></el-step>
         </el-steps>
-        <div flex="cross:center" flex-box="0">
-          <el-button class="extractBtn" @click="extractFn">
-            {{ btnName }}
-          </el-button>
-        </div>
       </div>
-      <attrBar :attrObj="bossAttrObj"></attrBar>
-      <div>当前事件: {{ thingName }}</div>
+      <attrBar :attrObj="bossAttrObj" flex-box="0"></attrBar>
+      <div class="war-box" flex-box="1">
+        这里进行战斗
+      </div>
     </div>
     <rightCards flex-box="0"></rightCards>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="70%">
@@ -44,7 +45,7 @@ export default {
     return {
       stepList: this.$store.state.baseData.STEP_LIST_1,
       active: 0,
-      btnName: '抽取事件',
+      // 当前事件
       thingName: '暂无',
       bossAttrObj: this.getBossAttrObj(),
       // 弹框
@@ -97,7 +98,7 @@ export default {
 </script>
 
 <style scoped>
-.extractBtn {
+/* .extractBtn {
   margin: 0 5px;
-}
+} */
 </style>

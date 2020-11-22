@@ -14,6 +14,7 @@
       <div class="btn drawCard" @click="drawCard">抽卡</div>
       <div class="btn useCard" @click="useCard">使用</div>
       <div class="btn discard" @click="discard">弃置</div>
+      <div class="btn overRound" @click="overRound">结束回合</div>
     </div>
   </div>
 </template>
@@ -138,6 +139,8 @@ export default {
       this.nowCards.splice(this.selectCardIndex, 1)
       this.selectCardIndex = -1
     },
+    // 结束回合
+    overRound () {},
     // 手卡效果
     cardEffect () {
       switch (this.selectCardData.type) {
@@ -202,12 +205,13 @@ export default {
 }
 // 按钮
 .btn {
-  width: 30%;
+  margin: 0 10px;
+  width: 25%;
   height: 40px;
   line-height: 40px;
   border: 1px solid;
   text-align: center;
-  font-size: 24px;
+  font-size: 22px;
   border-radius: 20px;
   cursor: pointer;
 }
@@ -215,6 +219,7 @@ export default {
 $btnBule: #51b5d4;
 $btnPurple: #cf4cda;
 $btnGreen: #a0d24b;
+$btnYellow: #d2d04b;
 .drawCard {
   color: $btnBule;
 }
@@ -225,6 +230,9 @@ $btnGreen: #a0d24b;
 
 .discard {
   color: $btnGreen;
+}
+.overRound {
+  color: $btnYellow;
 }
 .btn:hover {
   color: white;
@@ -249,5 +257,12 @@ $btnGreen: #a0d24b;
   -webkit-box-shadow: 10px 10px 99px 6px $btnGreen;
   -moz-box-shadow: 10px 10px 99px 6px $btnGreen;
   box-shadow: 10px 10px 99px 6px $btnGreen;
+}
+
+.overRound:hover {
+  background-color: $btnYellow;
+  -webkit-box-shadow: 10px 10px 99px 6px $btnYellow;
+  -moz-box-shadow: 10px 10px 99px 6px $btnYellow;
+  box-shadow: 10px 10px 99px 6px $btnYellow;
 }
 </style>
