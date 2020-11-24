@@ -29,6 +29,10 @@ export default {
       drawType: this.$store.state.baseData.TYPE,
       // 当前卡片
       nowCards: [],
+      // 当前回合角色
+      nowRoundRole: 'knight',
+      // 当前回合抽卡次数
+      nowRoundDrawTimes: 0,
       // 起始卡片
       startCards: [
         {
@@ -65,11 +69,29 @@ export default {
     }
   },
   methods: {
+    // 当前回合角色判断
+    isBossRound () {
+      if (this.nowRoundRole !== 'knight') {
+        return true
+      } else {
+        return false
+      }
+    },
     // 抽取
     drawCard () {
+      if (this.isBossRound()) {
+        this.$utils.tipsWarning('非自己回合阶段')
+        return
+      }
       if (this.nowCards.length >= 9) {
         this.$utils.tipsWarning('所持卡数量达到上线')
         return
+      }
+      if (this.nowRoundDrawTimes >= 2) {
+        this.$utils.tipsWarning('回合抽卡已达上线')
+        return
+      } else {
+        this.nowRoundDrawTimes++
       }
       // typeNum 随机类型 0-6为A；6-9为D；9-10为O
       const typeNum = Math.floor(Math.random() * 10)
@@ -99,6 +121,10 @@ export default {
     },
     // 使用
     useCard () {
+      if (this.isBossRound()) {
+        this.$utils.tipsWarning('非自己回合阶段')
+        return
+      }
       console.log('selectCardData :>> ', this.selectCardData)
       // 判断
       if (
@@ -132,6 +158,10 @@ export default {
     },
     // 丢弃
     discard () {
+      if (this.isBossRound()) {
+        this.$utils.tipsWarning('非自己回合阶段')
+        return
+      }
       if (this.selectCardIndex < 0) {
         this.$utils.tipsWarning('未选择卡片')
         return
@@ -140,10 +170,18 @@ export default {
       this.selectCardIndex = -1
     },
     // 结束回合
-    overRound () {},
+    overRound () {
+      if (this.isBossRound()) {
+        this.$utils.tipsWarning('非自己回合阶段')
+        return
+      }
+      this.nowRoundRole = 'boss'
+      this.nowRoundDrawTimes = 0
+    },
     // 手卡效果
     cardEffect () {
       switch (this.selectCardData.type) {
+        // 防
         case 'defense':
           this.$store.commit('changeAttrsNumObj', {
             name: 'defense',
@@ -151,6 +189,7 @@ export default {
             num: this.selectCardData.points
           })
           break
+        // 攻
         case 'attack':
           this.$store.commit('changeBossAttrObj', {
             name: 'blood',
