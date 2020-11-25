@@ -24,6 +24,12 @@ import card from '@/baseComponents/card.vue'
 export default {
   name: 'rightCards',
   components: { card },
+  props: {
+    bossName: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
     return {
       drawType: this.$store.state.baseData.TYPE,
@@ -176,7 +182,6 @@ export default {
         return
       }
       this.nowRoundRole = 'boss'
-      this.nowRoundDrawTimes = 0
     },
     // 手卡效果
     cardEffect () {
@@ -208,6 +213,36 @@ export default {
       // console.log('选择卡牌索引 :>> ', index)
       this.selectCardData = cardData
       this.selectCardIndex = index
+    },
+    // 减少血量
+    reduceBlood (points) {
+      this.$store.commit('changeAttrsBarObj', {
+        name: 'blood',
+        type: 'reduce',
+        num: points
+      })
+    },
+    // boss行动回合
+    bossActiveFn () {
+      switch (this.bossName) {
+        case 'scarecrow':
+          this.reduceBlood(1)
+          break
+
+        default:
+          break
+      }
+    },
+    // 结束判断
+    isOver () {
+      if (this.$store.state.attrsBarObj.blood <= 0) {
+        this.$utils.tipsErr('失败')
+      } else if (this.$store.state.bossAttrObj.blood <= 0) {
+        this.$utils.tipsErr('挑战成功')
+      } else {
+        return false
+      }
+      return true
     }
   },
   mounted () {
@@ -216,6 +251,21 @@ export default {
   computed: {
     myCards () {
       return this.nowCards
+    }
+  },
+  watch: {
+    nowRoundRole: {
+      async handler (val) {
+        if (val === 'boss') {
+          await this.bossActiveFn()
+          this.$utils.tipsWarning('到你的回合')
+          const res = await this.isOver()
+          if (!res) {
+            this.nowRoundRole = 'knight'
+            this.nowRoundDrawTimes = 0
+          }
+        }
+      }
     }
   }
 }

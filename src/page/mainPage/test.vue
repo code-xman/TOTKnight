@@ -20,7 +20,7 @@
         这里进行战斗
       </div>
     </div>
-    <rightCards flex-box="0"></rightCards>
+    <rightCards flex-box="0" :bossName="bossAttrObj.name"></rightCards>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="70%">
       <component
         :is="componentName"
@@ -63,6 +63,7 @@ export default {
   methods: {
     getBossAttrObj () {
       return {
+        name: 'scarecrow',
         attrName: '稻草人血量',
         colorType: 'scarecrow',
         total: this.$store.state.bossAttrObj.bloodAll,
