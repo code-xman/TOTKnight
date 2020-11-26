@@ -99,8 +99,8 @@ export default {
       } else {
         this.nowRoundDrawTimes++
       }
-      // typeNum 随机类型 0-6为A；6-9为D；9-10为O
-      const typeNum = Math.floor(Math.random() * 10)
+      // typeNum 随机类型 0-6为A；6-9为D；9-10为O；10-11为R
+      const typeNum = Math.floor(Math.random() * 11)
       if (typeNum < 6) {
         // A
         this.typeIndex = 0
@@ -109,9 +109,13 @@ export default {
         // D
         this.typeIndex = 1
         this.coefficient = Math.random() * 5 < 3 ? 3 : 5
-      } else {
+      } else if (typeNum < 10) {
         // O
         this.typeIndex = 2
+      } else {
+        // R
+        this.typeIndex = 3
+        this.coefficient = Math.random() * 5 < 3 ? 3 : 5
       }
       // 复制卡牌基本属性
       this.drawCardObj = this.$utils.copy(
@@ -202,6 +206,14 @@ export default {
             num: this.selectCardData.points
           })
           break
+        // 恢复
+        case 'recovery':
+          this.$store.commit('changeAttrsBarObj', {
+            name: 'blood',
+            type: 'add',
+            num: this.selectCardData.points
+          })
+          break
 
         default:
           break
@@ -220,6 +232,19 @@ export default {
         name: 'blood',
         type: 'reduce',
         num: points
+      })
+    },
+    // 回合开始恢复 蓝黄
+    recoveryBY () {
+      this.$store.commit('changeAttrsBarObj', {
+        name: 'mana',
+        type: 'add',
+        num: 1
+      })
+      this.$store.commit('changeAttrsBarObj', {
+        name: 'energy',
+        type: 'add',
+        num: 1
       })
     },
     // boss行动回合
@@ -258,11 +283,12 @@ export default {
       async handler (val) {
         if (val === 'boss') {
           await this.bossActiveFn()
-          this.$utils.tipsWarning('到你的回合')
           const res = await this.isOver()
           if (!res) {
             this.nowRoundRole = 'knight'
+            this.$utils.tipsWarning('到你的回合')
             this.nowRoundDrawTimes = 0
+            this.recoveryBY()
           }
         }
       }

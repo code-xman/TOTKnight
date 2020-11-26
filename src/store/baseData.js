@@ -27,6 +27,15 @@ const baseData = {
       consumeBlue: 0,
       consumeYellow: 0,
       content: ''
+    },
+    {
+      type: 'recovery',
+      color: '#50de2c',
+      name: 'R',
+      points: 1,
+      consumeBlue: 1,
+      consumeYellow: 1,
+      content: '恢复治疗'
     }
   ],
   MENU_LIST: [

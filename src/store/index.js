@@ -34,7 +34,10 @@ export default new Vuex.Store({
     changeAttrsBarObj (state, { name, type, num }) {
       if (type === 'add') {
         const res = (state.attrsBarObj[name] + num).toFixed(2)
-        state.attrsBarObj[name] = Number(res)
+        state.attrsBarObj[name] =
+          Number(res) >= state.attrsBarObj[name + 'All']
+            ? state.attrsBarObj[name + 'All']
+            : Number(res)
       } else if (type === 'reduce') {
         const res = (state.attrsBarObj[name] - num).toFixed(2)
         state.attrsBarObj[name] = Number(res)
