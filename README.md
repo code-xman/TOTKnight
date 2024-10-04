@@ -28,4 +28,3 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 2. 默认使用vue-router，使用vue-router请自行修改配置文件
 3. 默认使用element-ui，使用element-ui请自行修改配置文件
 4. 默认使用axios，使用axios请自行修改配置文件
-5. 默认使用vuex，使用vuex请自行修改配置文件
